@@ -5,6 +5,8 @@ const ApiFeatures = require("../utils/apiFeatures");
 // Create Product -- Admin
 exports.createProduct = catchAsyncError(async (req, res, next) => {
   // console.log("Insilde create product");
+
+  req.body.user = req.user.id;
   const product = await Product.create(req.body);
 
   res.status(200).json({
@@ -39,7 +41,7 @@ exports.getAllProducts = catchAsyncError(async (req, res, next) => {
     products,
   });
 
-  // next();
+  next();
 });
 
 // Get a single product

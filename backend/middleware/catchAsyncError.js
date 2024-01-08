@@ -2,7 +2,7 @@
 //   Promise.resolve(theFunc(req, res, next)).catch(next);
 // };
 
-// The abpve and below code is the same
+// The above and below code is the same
 
 module.exports = catchAsync = (fn) => {
   return (req, res, next) => {
