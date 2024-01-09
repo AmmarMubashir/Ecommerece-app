@@ -89,7 +89,7 @@ exports.forgotPassword = catchAsyncError(async (req, res, next) => {
     "host"
   )}/api/vi/password/reset/${resetToken}`;
 
-  const message = `your password reset token is :- \n\n ${resetPasswordURL} \n\n If you have not required this email then, please ignore it`;
+  const message = `your password reset token is :- \n\n ${resetPasswordURL} \n\n If you have not required this email then, please ignore it 😊`;
 
   try {
     await sendEmail({
