@@ -1,5 +1,5 @@
 // creating token and saving in cokkies
-
+// R2
 const sendToken = (user, statusCode, res) => {
   // Options for cookie
 

@@ -3,8 +3,10 @@ const User = require("../Model/userModel");
 const catchAsyncError = require("../middleware/catchAsyncError");
 const sendToken = require("../utils/JWTToken");
 const sendEmail = require("../utils/sendEmail");
+const crypto = require("crypto");
+const { bgBlack } = require("colors");
 
-// Register a user
+// Register a user // R1
 exports.registerUser = catchAsyncError(async (req, res, next) => {
   const { name, email, password } = req.body;
 
@@ -30,6 +32,7 @@ exports.registerUser = catchAsyncError(async (req, res, next) => {
 
 // Login User
 exports.loginUser = catchAsyncError(async (req, res, next) => {
+  // Getting email and password from user
   const { email, password } = req.body;
 
   //Checking if user has given password and email
@@ -43,6 +46,7 @@ exports.loginUser = catchAsyncError(async (req, res, next) => {
     return next(new ErrorHandler("Invalid email or password", 401));
   }
 
+  // comparing the provided password and the password at the time of register
   const isPasswordMatched = await user.comparePassword(password);
 
   if (!isPasswordMatched) {
@@ -87,7 +91,7 @@ exports.forgotPassword = catchAsyncError(async (req, res, next) => {
 
   const resetPasswordURL = `${req.protocol}://${req.get(
     "host"
-  )}/api/vi/password/reset/${resetToken}`;
+  )}/api/v1/password/reset/${resetToken}`;
 
   const message = `your password reset token is :- \n\n ${resetPasswordURL} \n\n If you have not required this email then, please ignore it 😊`;
 
