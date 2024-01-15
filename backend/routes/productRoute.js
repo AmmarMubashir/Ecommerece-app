@@ -20,11 +20,12 @@ router
   .route("/admin/product/new")
   .post(isAuthenticatedUser, authorizedRole("admin"), createProduct);
 
-router
-  .route("/admin/product/:id")
-  .put(isAuthenticatedUser, authorizedRole("admin"), updateProduct)
-  .get(isAuthenticatedUser, authorizedRole("admin"), getProductDetails)
-  .delete(deleteProduct);
+// router
+//   .route("/admin/product/:id")
+//   .put(isAuthenticatedUser, authorizedRole("admin"), updateProduct)
+//   .get(isAuthenticatedUser, authorizedRole("admin"), getProductDetails)
+//   .delete(deleteProduct);
+router.route("/admin/product/:id").get(getProductDetails).delete(deleteProduct);
 
 router.route("/product/:id").delete(deleteProduct);
 // router.delete("/product/:id", deleteProduct);

@@ -27,8 +27,9 @@ exports.createProduct = catchAsyncError(async (req, res, next) => {
 
 // Get all products
 exports.getAllProducts = catchAsyncError(async (req, res, next) => {
+  // return next(new ErrorHandler("Product Not found with Choice", 500));
   const productCount = await Product.countDocuments();
-  const resultPerPage = 5;
+  const resultPerPage = 8;
   const apiFeatures = new ApiFeatures(Product.find(), req.query)
     .search()
     .filter()
