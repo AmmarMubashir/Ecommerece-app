@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import { API_URL } from "../config/config";
 import {
   ALL_PRODUCT_REQUEST,
   ALL_PRODUCT_SUCCESS,
@@ -14,7 +14,8 @@ export const getProduct = () => async (dispatch) => {
   try {
     dispatch({ type: ALL_PRODUCT_REQUEST });
 
-    const { data } = await axios.get("/api/v1/products");
+    const { data } = await axios.get(`${API_URL}api/v1/products`);
+    // console.log(data);
 
     dispatch({
       type: ALL_PRODUCT_SUCCESS,
@@ -52,7 +53,7 @@ export const getProductDetails = (id) => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_DETAILS_REQUEST });
 
-    const { data } = await axios.get(`/api/v1/admin/product/${id}`);
+    const { data } = await axios.get(`${API_URL}api/v1/admin/product/${id}`);
     // console.log(data);
 
     dispatch({

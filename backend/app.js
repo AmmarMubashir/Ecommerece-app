@@ -4,6 +4,15 @@ const app = express();
 
 const errorMiddleware = require("./middleware/error");
 
+const cors = require("cors");
+const corsOptions = {
+  origin: "http://localhost:3000",
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  optionsSuccessStatus: 204,
+};
+
+app.use(cors(corsOptions));
+
 // Use the express.json() middleware to parse incoming JSON requests.
 app.use(express.json());
 app.use(cookieParser());
