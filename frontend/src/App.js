@@ -11,6 +11,7 @@ import Search from "./component/Product/Search";
 import "./App.css";
 
 import WebFont from "webfontloader";
+import LoginSignUp from "./component/User/LoginSignup";
 
 const App = () => {
   useEffect(() => {
@@ -29,6 +30,7 @@ const App = () => {
         <Route path="/products" element={<Products />} />
         <Route path="/products/:keyword" element={<Products />} />
         <Route path="/search" element={<Search />} />
+        <Route path="/login" element={<LoginSignUp />} />
       </Routes>
 
       <Footer />
