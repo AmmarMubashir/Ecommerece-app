@@ -15,8 +15,8 @@
   background-color: white;
   width: 25vw;
   height: 70vh;
-  /* box-sizing: border-box;
-  overflow: hidden; */
+  box-sizing: border-box;
+  overflow: hidden;
 }
 .login_signUp_toggle {
   display: flex;

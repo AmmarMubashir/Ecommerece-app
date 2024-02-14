@@ -12,6 +12,9 @@ import "./App.css";
 
 import WebFont from "webfontloader";
 import LoginSignUp from "./component/User/LoginSignup";
+import { loadUser } from "./actions/userActions";
+
+import store from "./store";
 
 const App = () => {
   useEffect(() => {
@@ -20,6 +23,9 @@ const App = () => {
         families: ["Roboto", "Droid Sense", "Chilanka"],
       },
     });
+
+    const jwt = localStorage.getItem("jwt");
+    store.dispatch(loadUser(jwt));
   }, []);
   return (
     <Router>
