@@ -1,6 +1,8 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const app = express();
+const bodyParser = require("body-parser");
+const fileUpload = require("express-fileupload");
 
 const errorMiddleware = require("./middleware/error");
 
@@ -16,6 +18,9 @@ app.use(cors(corsOptions));
 // Use the express.json() middleware to parse incoming JSON requests.
 app.use(express.json());
 app.use(cookieParser());
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(fileUpload());
 
 // imports
 const products = require("./routes/productRoute");
