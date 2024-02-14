@@ -159,7 +159,6 @@ exports.resetPassword = catchAsyncError(async (req, res, next) => {
 // get user details
 exports.getUserDetails = catchAsyncError(async (req, res, next) => {
   const user = await User.findById(req.user.id);
-  console.log(user);
 
   res.status(200).json({
     success: true,
@@ -170,6 +169,8 @@ exports.getUserDetails = catchAsyncError(async (req, res, next) => {
 // update Password
 exports.updatePasword = catchAsyncError(async (req, res, next) => {
   const user = await User.findById(req.user.id).select("+password");
+
+  // console.log(user);
 
   const isPasswordMatched = await user.comparePassword(req.body.oldPassword);
 

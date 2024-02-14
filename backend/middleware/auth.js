@@ -4,14 +4,16 @@ const jwt = require("jsonwebtoken");
 const catchAsyncError = require("./catchAsyncError");
 
 exports.isAuthenticatedUser = catchAsyncError(async (req, res, next) => {
-  const { token } = req.cookies;
+  // const { token } = req.cookies;
+  const token = req.headers.authorization.split(" ")[1];
+  console.log(token);
 
   if (!token) {
     return next(new ErrorHandler("Please login to access this resource", 401));
   }
 
   const decodedData = jwt.verify(token, process.env.JWT_SECRET);
-
+  console.log("decoded", decodedData);
   req.user = await User.findById(decodedData.id);
 
   next();
