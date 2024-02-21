@@ -17,7 +17,6 @@ import {
   UPDATE_PASSWORD_REQUEST,
   UPDATE_PASSWORD_SUCCESS,
   UPDATE_PASSWORD_FAIL,
-  UPDATE_PASSWORD_RESET,
   FORGOT_PASSWORD_REQUEST,
   FORGOT_PASSWORD_SUCCESS,
   FORGOT_PASSWORD_FAIL,
@@ -27,7 +26,6 @@ import {
   LOAD_USER_FAIL,
 } from "../constants/userConstants";
 import { API_URL } from "../config/config";
-import { Avatar } from "@material-ui/core";
 
 // login
 export const login = (email, password) => async (dispatch) => {
@@ -171,10 +169,10 @@ export const forgotPassword = (email) => async (dispatch) => {
         },
       }
     );
-    console.log(data, "dataaa");
+    // console.log(data, "dataaa");
     dispatch({ type: FORGOT_PASSWORD_SUCCESS, payload: data.message });
   } catch (error) {
-    console.log(error.response);
+    // console.log(error.response);
     dispatch({
       type: FORGOT_PASSWORD_FAIL,
       payload: error.response.data.error,

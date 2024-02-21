@@ -8,10 +8,11 @@ import ProductDetails from "./component/Product/ProductDetails";
 import Products from "./component/Product/Products";
 import Search from "./component/Product/Search";
 import UserOption from "./component/layout/Header/UserOption";
-import Profile from "./component/User/Profile.js";
-import UpdatePassword from "./component/User/UpdatePassword.js";
-import ForgotPassword from "./component/User/ForgotPassword.js";
-import ResetPassword from "./component/User/ResetPassword.js";
+import Profile from "./component/User/Profile";
+import UpdatePassword from "./component/User/UpdatePassword";
+import ForgotPassword from "./component/User/ForgotPassword";
+import ResetPassword from "./component/User/ResetPassword";
+import Cart from "./component/Cart/Cart";
 
 import "./App.css";
 
@@ -22,7 +23,7 @@ import { loadUser } from "./actions/userActions";
 import store from "./store";
 import { useSelector } from "react-redux";
 import ProtectedRoute from "./component/Route/ProtectedRoute";
-import UpdateProfile from "./component/User/UpdateProfile.js";
+import UpdateProfile from "./component/User/UpdateProfile";
 
 const App = () => {
   const { isAuthenticated, user } = useSelector((state) => state.user);
@@ -55,6 +56,7 @@ const App = () => {
         <Route path="/password/forgot" element={<ForgotPassword />} />
         <Route path="/password/reset/:token" element={<ResetPassword />} />
         <Route path="/login" element={<LoginSignUp />} />
+        <Route path="/cart" element={<Cart />} />
       </Routes>
 
       <Footer />
