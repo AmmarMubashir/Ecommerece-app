@@ -25,7 +25,11 @@ router
 //   .put(isAuthenticatedUser, authorizedRole("admin"), updateProduct)
 //   .get(isAuthenticatedUser, authorizedRole("admin"), getProductDetails)
 //   .delete(deleteProduct);
-router.route("/admin/product/:id").get(getProductDetails).delete(deleteProduct);
+router
+  .route("/admin/product/:id")
+  .get(getProductDetails)
+  .put(isAuthenticatedUser, authorizedRole("admin"), updateProduct)
+  .delete(deleteProduct);
 
 router.route("/product/:id").delete(deleteProduct);
 // router.delete("/product/:id", deleteProduct);
