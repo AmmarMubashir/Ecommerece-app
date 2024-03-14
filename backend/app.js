@@ -26,6 +26,7 @@ app.use(fileUpload());
 const products = require("./routes/productRoute");
 const user = require("./routes/userRoute");
 const orders = require("./routes/orderRoute");
+const payments = require("./routes/paymentRoute");
 app.get("/", (req, res) => {
   //   console.log("Working");
   res.send("Welcome!");
@@ -34,6 +35,7 @@ app.get("/", (req, res) => {
 app.use("/api/v1", products);
 app.use("/api/v1", user);
 app.use("/api/v1", orders);
+app.use("/api/v1", payments);
 
 // Middleware for Errors
 // R5

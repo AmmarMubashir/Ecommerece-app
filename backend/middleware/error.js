@@ -33,6 +33,6 @@ module.exports = (err, req, res, next) => {
   res.status(err.statusCode).json({
     success: false,
     error: err.message,
-    // error: err.stack, // stack gives the full details of error
+    error: err.stack, // stack gives the full details of error
   });
 };
