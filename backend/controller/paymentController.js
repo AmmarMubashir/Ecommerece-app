@@ -7,44 +7,41 @@ const stripe = require("stripe")(
 
 exports.processPayment = catchAsyncError(async (req, res, next) => {
   const product = await Product.findById(req.params.productId);
-  // console.log(req.Product);
+  try {
+    // console.log(req);
+    const order = await Product.findById(req.body.id);
 
-  const session = await stripe.checkout.sessions.create({
-    mode: "payment",
-    payment_method_types: ["card"],
-    success_url: `${req.protocol}://${req.get("host")}/`,
-    cancel_url: `${req.protocol}://${req.get("host")}/product/${product._id}`,
-    customer_email: req.user.email,
-    client_reference_id: req.user.id,
-    // line_items: [
-    //   {
-    //     name: `${product.name} Product`,
-    //     description: product.description,
-    //     images: [
-    //       `https://cdn.homeshopping.pk/product_images/n/181/White__69806_zoom.png`,
-    //     ],
-    //     amount: product.price * 100,
-    //     currency: "usd",
-    //     quantity: 1,
-    //   },
-    // ],
-    line_items: [
-      {
-        price_data: {
-          currency: "usd",
-          product_data: {
-            name: `${product.name} Product`,
-            description: product.description,
-            images: [
-              "https://cdn.homeshopping.pk/product_images/n/181/White__69806_zoom.png",
-            ],
+    // console.log(order);
+
+    // console.log(process.env.STRIPE_SECRETKEY);
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      success_url: `http://localhost:3000/order/confirm`,
+      cancel_url: `http://localhost:3000/`,
+      client_reference_id: req.params.productId,
+      mode: "payment",
+      line_items: [
+        {
+          price_data: {
+            currency: "usd",
+            unit_amount: 200,
+            product_data: {
+              name: "AL Syed Ecommerce Store",
+            },
           },
-          unit_amount: product.price * 100, // Convert price to cents
+          quantity: 1,
         },
-        quantity: 1,
-      },
-    ],
-  });
+      ],
+    });
+
+    res.status(200).json({
+      status: "success",
+      url: session.url,
+      session,
+    });
+  } catch (err) {
+    console.log(err);
+  }
 
   res.status(200).json({
     success: true,
@@ -53,40 +50,48 @@ exports.processPayment = catchAsyncError(async (req, res, next) => {
 });
 
 // exports.processPayment = catchAsyncError(async (req, res, next) => {
-//   const myPayment = await stripe.paymentIntents.create({
-//     currency: req.body.amount,
-//     currency: "inr",
-//     metadata: {
-//       company: "ECOMMERCE",
-//     },
+//   const product = await Product.findById(req.params.productId);
+//   // console.log(req.Product);
+
+//   const session = await stripe.checkout.sessions.create({
+//     mode: "payment",
+//     payment_method_types: ["card"],
+//     success_url: `${req.protocol}://${req.get("host")}/`,
+//     cancel_url: `${req.protocol}://${req.get("host")}/product/${product._id}`,
+//     customer_email: req.user.email,
+//     client_reference_id: req.user.id,
+//     // line_items: [
+//     //   {
+//     //     name: `${product.name} Product`,
+//     //     description: product.description,
+//     //     images: [
+//     //       `https://cdn.homeshopping.pk/product_images/n/181/White__69806_zoom.png`,
+//     //     ],
+//     //     amount: product.price * 100,
+//     //     currency: "usd",
+//     //     quantity: 1,
+//     //   },
+//     // ],
+//     line_items: [
+//       {
+//         price_data: {
+//           currency: "usd",
+//           product_data: {
+//             name: `${product.name} Product`,
+//             description: product.description,
+//             images: [
+//               "https://cdn.homeshopping.pk/product_images/n/181/White__69806_zoom.png",
+//             ],
+//           },
+//           unit_amount: product.price * 100, // Convert price to cents
+//         },
+//         quantity: 1,
+//       },
+//     ],
 //   });
 
 //   res.status(200).json({
 //     success: true,
-//     client_secret: myPayment.client_secret,
-//   });
-// });
-
-// exports.processPayment = catchAsyncError(async (req, res, next) => {
-//   console.log(req.body);
-//   // Create a payment intent with Stripe
-//   const paymentIntent = await stripe.paymentIntents.create({
-//     currency: req.body.amount,
-//     currency: "inr",
-//     metadata: {
-//       company: "ECOMMERCE",
-//     },
-//   });
-
-//   // Send response with payment intent client secret
-//   res.status(200).json({
-//     success: true,
-//     client_secret: paymentIntent.client_secret,
-//   });
-// });
-
-// exports.sendStripeApiKey = catchAsyncError(async (req, res, next) => {
-//   res.status(200).json({
-//     stripeApiKey: process.env.STRIPE_API_KEY,
+//     session,
 //   });
 // });
