@@ -10,12 +10,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { login, ClearErrors, register } from "../../actions/userActions";
 import { useAlert } from "react-alert";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const LoginSignUp = () => {
   const dispatch = useDispatch();
   const alert = useAlert();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const loginTab = useRef(null);
   const registerTab = useRef(null);
@@ -74,6 +75,8 @@ const LoginSignUp = () => {
     }
   };
 
+  const redirect = location.search ? location.search.split("=")[1] : "/account";
+
   useEffect(() => {
     if (error) {
       alert.error(error);
@@ -81,9 +84,9 @@ const LoginSignUp = () => {
     }
 
     if (isAuthenticated) {
-      navigate("/account");
+      navigate(redirect);
     }
-  }, [dispatch, error, alert, isAuthenticated, navigate]);
+  }, [dispatch, error, alert, isAuthenticated, redirect, navigate]);
 
   const switchTabs = (e, tab) => {
     if (tab === "login") {
