@@ -38,7 +38,7 @@ const UserOption = ({ user }) => {
     alert.success("Logout successfully");
   };
   const dashboard = () => {
-    navigate("/dashboard");
+    navigate("/admin/dashboard");
   };
   const options = [
     { icon: <ListAltIcon />, name: "Orders", func: orders },

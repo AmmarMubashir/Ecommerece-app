@@ -18,10 +18,13 @@ import ConfirmOrder from "./component/Cart/ConfirmOrder";
 import OrderSuccess from "./component/Cart/OrderSuccess";
 import MyOrders from "./component/Order/MyOrder";
 import OrderDetails from "./component/Order/OrderDetails";
-import Payment from "./component/Cart/Payment.js";
+import Dashboard from "./component/Admin/Dashboard";
+import ProductList from "./component/Admin/ProductList";
+import NewProduct from "./component/Admin/NewProduct.js";
 
-import { Element } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
+// import Payment from "./component/Cart/Payment.js";
+// import { Element } from "@stripe/react-stripe-js";
+// import { loadStripe } from "@stripe/stripe-js";
 
 import "./App.css";
 
@@ -40,7 +43,7 @@ import Prepayment from "./component/Cart/Prepayment.js";
 
 const App = () => {
   const { isAuthenticated, user } = useSelector((state) => state.user);
-  const [stripeApiKey, SetstripeApiKey] = useState("");
+  // const [stripeApiKey, SetstripeApiKey] = useState("");
   // console.log(jwt, "JQQQ");
   // async function getStripeApiKey(jwt) {
   //   const { data } = await axios.get(`${API_URL}api/v1/stripeapiKey`, {
@@ -84,6 +87,9 @@ const App = () => {
           <Route path="/success" element={<OrderSuccess />} />
           <Route path="/orders" element={<MyOrders />} />
           <Route path="/order/:id" element={<OrderDetails />} />
+          <Route path="/admin/dashboard" element={<Dashboard />} />
+          <Route path="/admin/products" element={<ProductList />} />
+          <Route path="/admin/product" element={<NewProduct />} />
         </Route>
 
         <Route path="/password/forgot" element={<ForgotPassword />} />
