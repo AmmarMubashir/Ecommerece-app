@@ -16,10 +16,11 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 // Use the express.json() middleware to parse incoming JSON requests.
-app.use(express.json());
+app.use(express.json({ limit: "200mb" }));
 app.use(cookieParser());
 
-app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.json({ limit: "200mb" }));
+app.use(bodyParser.urlencoded({ limit: "200mb", extended: true }));
 app.use(fileUpload());
 
 // imports
