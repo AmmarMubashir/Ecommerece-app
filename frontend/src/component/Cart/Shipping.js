@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import "./Shipping.css";
 import { useSelector, useDispatch } from "react-redux";
 import { saveShippingInfo } from "../../actions/cartAction";
@@ -13,12 +13,34 @@ import { Country, State } from "country-state-city";
 import { useAlert } from "react-alert";
 import CheckoutSteps from "../Cart/CheckoutSteps.js";
 import { useNavigate } from "react-router-dom";
+import { createOrder } from "../../actions/orderAction.js";
 
 const Shipping = () => {
   const dispatch = useDispatch();
   const alert = useAlert();
   const navigate = useNavigate();
-  const { shippingInfo } = useSelector((state) => state.cart);
+  const { shippingInfo, cartItems } = useSelector((state) => state.cart);
+  const { isCreated, error, order } = useSelector((state) => state.newOrders);
+
+  const itemsPrice = cartItems.reduce(
+    (acc, item) => acc + item.quantity * item.price,
+    0
+  );
+
+  const shippingPrice = itemsPrice > 1000 ? 0 : 200;
+
+  const taxPrice = itemsPrice * 0.18;
+
+  const totalPrice = itemsPrice + taxPrice + shippingPrice;
+
+  const orderData = {
+    shippingInfo,
+    orderItems: cartItems,
+    itemsPrice,
+    taxPrice,
+    shippingPrice,
+    totalPrice,
+  };
 
   //   console.log(shippingInfo, "SHIPPING>>>");
 
@@ -39,6 +61,7 @@ const Shipping = () => {
 
   const shippingSubmit = (e) => {
     e.preventDefault();
+    const jwt = localStorage.getItem("jwt");
 
     if (phoneNo.length < 10 || phoneNo.length > 10) {
       alert.error("Phone Number should be 10 digits long");
@@ -48,9 +71,21 @@ const Shipping = () => {
     dispatch(
       saveShippingInfo({ address, city, state, country, pinCode, phoneNo })
     );
+    dispatch(createOrder(orderData, jwt));
 
-    navigate("/order/confirm");
+    // navigate("/order/confirm");
   };
+
+  useEffect(() => {
+    if (isCreated) {
+      alert.success("Order created Successfully");
+      // console.log(order?.order?._id);
+      navigate(`/order/confirm?order_id=${order?.order?._id}`);
+    }
+    if (error) {
+      alert.error(error);
+    }
+  }, [isCreated, error, alert, navigate, order]);
   return (
     <Fragment>
       <MetaData title="Shipping Details" />

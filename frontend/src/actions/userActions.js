@@ -23,6 +23,18 @@ import {
   RESET_PASSWORD_REQUEST,
   RESET_PASSWORD_SUCCESS,
   RESET_PASSWORD_FAIL,
+  ALL_USERS_REQUEST,
+  ALL_USERS_SUCCESS,
+  ALL_USERS_FAIL,
+  DELETE_USER_REQUEST,
+  DELETE_USER_SUCCESS,
+  DELETE_USER_FAIL,
+  UPDATE_USER_REQUEST,
+  UPDATE_USER_SUCCESS,
+  UPDATE_USER_FAIL,
+  USER_DETAILS_REQUEST,
+  USER_DETAILS_SUCCESS,
+  USER_DETAILS_FAIL,
   LOAD_USER_FAIL,
 } from "../constants/userConstants";
 import { API_URL } from "../config/config";
@@ -67,10 +79,6 @@ export const register = (userData) => async (dispatch) => {
       payload: error.response.data.error,
     });
   }
-};
-
-export const ClearErrors = () => async (dispatch) => {
-  dispatch({ type: CLEAR_ERRORS });
 };
 
 // load user
@@ -203,4 +211,87 @@ export const resetPassword = (token, passwords) => async (dispatch) => {
       payload: error.response.data.error,
     });
   }
+};
+
+// get All Users
+export const getAllUsers = (jwt) => async (dispatch) => {
+  try {
+    dispatch({ type: ALL_USERS_REQUEST });
+    const { data } = await axios.get(`${API_URL}api/v1/admin/users`, {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    });
+
+    dispatch({ type: ALL_USERS_SUCCESS, payload: data.users });
+  } catch (error) {
+    dispatch({ type: ALL_USERS_FAIL, payload: error.response.data.message });
+  }
+};
+
+// get  User Details
+export const getUserDetails = (id, jwt) => async (dispatch) => {
+  try {
+    dispatch({ type: USER_DETAILS_REQUEST });
+    const { data } = await axios.get(`${API_URL}api/v1/admin/user/${id}`, {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    });
+
+    dispatch({ type: USER_DETAILS_SUCCESS, payload: data.user });
+  } catch (error) {
+    dispatch({ type: USER_DETAILS_FAIL, payload: error.response.data.message });
+  }
+};
+
+// Update User
+export const updateUser = (id, userData, jwt) => async (dispatch) => {
+  try {
+    dispatch({ type: UPDATE_USER_REQUEST });
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${jwt}`,
+      },
+    };
+
+    const { data } = await axios.put(
+      `${API_URL}api/v1/admin/user/${id}`,
+      userData,
+      config
+    );
+
+    dispatch({ type: UPDATE_USER_SUCCESS, payload: data.success });
+  } catch (error) {
+    dispatch({
+      type: UPDATE_USER_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+// Delete User
+export const deleteUser = (id, jwt) => async (dispatch) => {
+  try {
+    dispatch({ type: DELETE_USER_REQUEST });
+
+    const { data } = await axios.delete(`${API_URL}api/v1/admin/user/${id}`, {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    });
+
+    dispatch({ type: DELETE_USER_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: DELETE_USER_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+export const ClearErrors = () => async (dispatch) => {
+  dispatch({ type: CLEAR_ERRORS });
 };

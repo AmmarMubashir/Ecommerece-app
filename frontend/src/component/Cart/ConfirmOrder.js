@@ -8,11 +8,12 @@ import { Typography } from "@material-ui/core";
 import { API_URL } from "../../config/config";
 import axios from "axios";
 import { useAlert } from "react-alert";
-import { createOrder, clearErrors } from "../../actions/orderAction";
+import { clearErrors } from "../../actions/orderAction";
 
 const ConfirmOrder = () => {
   const dispatch = useDispatch();
   const alert = useAlert();
+
   const { shippingInfo, cartItems } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.user);
   const { error } = useSelector((state) => state.newOrders);
@@ -30,39 +31,27 @@ const ConfirmOrder = () => {
 
   const address = `${shippingInfo.address}, ${shippingInfo.city}, ${shippingInfo.state}, ${shippingInfo.pinCode}, ${shippingInfo.country}`;
 
+  const decodeQuery = decodeURIComponent(window.location.search);
+  const params = new URLSearchParams(decodeQuery);
+  const orderId = params.get("order_id");
+
   const proceedToPayment = async () => {
-    const data = {
-      subtotal,
-      shippingCharges,
-      tax,
-      totalPrice,
-    };
+    // const data = {
+    //   subtotal,
+    //   shippingCharges,
+    //   tax,
+    //   totalPrice,
+    // };
 
-    const jwt = localStorage.getItem("jwt");
+    // const jwt = localStorage.getItem("jwt");
 
-    sessionStorage.setItem("orderInfo", JSON.stringify(data));
+    // console.log(orderId);
 
-    // navigate("/process/payment");
-    // console.log("confirm");
-
-    // axios
-    //   .post(`${API_URL}api/v1/checkout_session/6559ea3616dc2773598c2dd8`)
-    //   .then((res) => {
-    //     console.log(res.data.success);
-    //     if (res.data.url) {
-    //       window.location.href = res.data.url;
-    //       // console.log(res);
-    //     }
-    //   })
-    //   .catch((err) => console.log(err));
-
-    dispatch(createOrder(data, jwt));
-
-    // setTimeout(() => dispatch(createOrder(data, jwt)), 1000);
+    // sessionStorage.setItem("orderInfo", JSON.stringify(data));
 
     try {
       const res = await axios.post(
-        `${API_URL}api/v1/checkout_session/6559ea3616dc2773598c2dd8`
+        `${API_URL}api/v1/checkout_session/${orderId}`
       );
 
       if (res.data.url) {
