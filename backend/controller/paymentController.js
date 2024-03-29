@@ -6,7 +6,7 @@ const stripe = require("stripe")(
 );
 
 exports.processPayment = catchAsyncError(async (req, res, next) => {
-  const product = await Product.findById(req.params.productId);
+  // const product = await Product.findById(req.params.productId);
   try {
     // console.log(req);
     const order = await Product.findById(req.body.id);
@@ -18,7 +18,7 @@ exports.processPayment = catchAsyncError(async (req, res, next) => {
       payment_method_types: ["card"],
       success_url: `http://localhost:3000/order/confirm`,
       cancel_url: `http://localhost:3000/`,
-      client_reference_id: req.params.productId,
+      client_reference_id: req.params.orderId,
       mode: "payment",
       line_items: [
         {
