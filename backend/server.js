@@ -4,20 +4,14 @@ const colors = require("colors");
 const dotenv = require("dotenv");
 const cloudinary = require("cloudinary");
 
-// Handling uncaught exception
-process.on("uncaughtException", (err) => {
-  // This error handling is for using a variable that is not defined yet
-  console.log("Error", err.message);
-  console.log("Shutting down the server due to uncaught exception");
-  process.exit(1);
-});
-
 // const connectDatabase = require("./config/database");
 // config
-dotenv.config({ path: "backend/config/config.env" });
+dotenv.config({ path: "config/config.env" });
 
 // connecting to database
 const DB = process.env.DB_URL.replace("<PASSWORD>", process.env.DB_PASSWORD);
+
+console.log(DB);
 
 mongoose
   .connect(DB)
@@ -27,6 +21,14 @@ cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+// Handling uncaught exception
+process.on("uncaughtException", (err) => {
+  // This error handling is for using a variable that is not defined yet
+  console.log("Error", err.message);
+  console.log("Shutting down the server due to uncaught exception");
+  process.exit(1);
 });
 
 app.listen(process.env.PORT, () => {

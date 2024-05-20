@@ -28,6 +28,11 @@ const products = require("./routes/productRoute");
 const user = require("./routes/userRoute");
 const orders = require("./routes/orderRoute");
 const payments = require("./routes/paymentRoute");
+
+// for checking the health of api
+app.get("/health", (req, res) => {
+  res.status(200).json({ status: "UP" });
+});
 app.get("/", (req, res) => {
   //   console.log("Working");
   res.send("Welcome!");
