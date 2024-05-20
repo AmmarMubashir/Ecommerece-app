@@ -168,7 +168,7 @@ const ProcessOrder = () => {
                     <AccountTreeIcon />
                     <select onChange={(e) => setStatus(e.target.value)}>
                       <option value="">Choose Category</option>
-                      {order.orderStatus === "Processing" && (
+                      {order.orderStatus === "Pending" && (
                         <option value="Shipped">Shipped</option>
                       )}
 

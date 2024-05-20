@@ -105,7 +105,10 @@ const App = () => {
         </Route>
 
         <Route path="/password/forgot" element={<ForgotPassword />} />
-        <Route path="/password/reset/:token" element={<ResetPassword />} />
+        <Route
+          path="api/v1/password/reset/:token"
+          element={<ResetPassword />}
+        />
         <Route path="/login" element={<LoginSignUp />} />
         <Route path="/cart" element={<Cart />} />
         {/* <Route path="/process/payment" element={<Prepayment />} /> */}
