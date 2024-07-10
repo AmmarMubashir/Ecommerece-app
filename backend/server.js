@@ -11,7 +11,7 @@ dotenv.config({ path: "config/config.env" });
 // connecting to database
 const DB = process.env.DB_URL.replace("<PASSWORD>", process.env.DB_PASSWORD);
 
-console.log(DB);
+// console.log(DB);
 
 mongoose
   .connect(DB)
